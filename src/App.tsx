@@ -1,5 +1,6 @@
+import { Counter } from "./components"
 import {
-  BasicFunctions,
+  // BasicFunctions,
   // BasicTypes, 
   // ObjectLiterals
 }
@@ -13,7 +14,8 @@ function App() {
 
       {/* <BasicTypes /> */}
       {/* <ObjectLiterals /> */}
-      <BasicFunctions />
+      {/* <BasicFunctions /> */}
+      <Counter />
     </main>
   )
 }
