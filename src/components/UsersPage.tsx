@@ -1,49 +1,73 @@
-import axios from "axios"
-import { useEffect } from "react"
-import { ReqResUserListResponse } from "../interfaces";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import type { ReqResUserListResponse, User } from "../interfaces";
 
-const loadUsers = async() => {
-    try {
-        const { data } = await axios.get<ReqResUserListResponse>('https://reqres.in/api/users');        
-        return data.data;
-    } catch (error) {
-        console.log(error)
-        return []
-    }
+const loadUsers = async (): Promise<User[]> => {
+  try {
+    const { data } = await axios.get<ReqResUserListResponse>( 'https://reqres.in/api/users' );
+    return data.data;
+  } catch ( error ) {
+    console.log( error );
+    return [];
+  }
 
-}
+};
 
 export const UsersPage = () => {
 
-    useEffect( () => {
+  const [ users, setUsers ] = useState<User[]>( [] );
 
-        loadUsers().then( users => console.log( users ))
+  useEffect( () => {
 
-        // fetch('https://reqres.in/api/users?page=2')
-        // .then ( resp => resp.json() )
-        // .then( data => console.log(data) )
+    loadUsers()
+      .then(
+        // users => setUsers( users )
+        setUsers // Es lo mismo que la linea de arriba
+      );
 
-    }, [])
+    // fetch('https://reqres.in/api/users?page=2')
+    // .then ( resp => resp.json() )
+    // .then( data => console.log(data) )
+
+  }, [] );
 
   return (
     <>
-        <h3>Usuarios: </h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Avatar</th>
-                    <th>Nombre</th>
-                    <th>Email</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Avatar</td>
-                    <td>Nombre</td>
-                    <td>Email</td>
-                </tr>
-            </tbody>
-        </table>
+      <h3>Usuarios: </h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Avatar</th>
+            <th>Nombre</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            users.map( user => (
+              <UserRow key={ user.id } user={ user } />
+            ) )
+          }
+        </tbody>
+      </table>
     </>
-  )
+  );
+};
+
+
+interface Props {
+  user: User;
 }
+
+export const UserRow = ( { user }: Props ) => {
+
+  const { avatar, first_name, last_name, email } = user;
+
+  return (
+    <tr>
+      <td> <img style={ { width: '40px' } } src={ avatar } alt="Avatar image" /></td>
+      <td>{ first_name } { last_name } </td>
+      <td>{ email }</td>
+    </tr>
+  );
+};
