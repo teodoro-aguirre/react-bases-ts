@@ -1,4 +1,8 @@
-import { BasicTypes } from "./typescript"
+import {
+  // BasicTypes, 
+  ObjectLiterals
+}
+  from "./typescript"
 
 function App() {
 
@@ -6,7 +10,8 @@ function App() {
     <main>
       <h1>Introducción a React con TypeScript</h1>
 
-      <BasicTypes />
+      {/* <BasicTypes /> */}
+      <ObjectLiterals />
     </main>
   )
 }
